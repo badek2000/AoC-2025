@@ -1,0 +1,3 @@
+[submodule "aoclib"]
+	path = aoclib
+	url = git@github.com:badek2000/aoclib.git
