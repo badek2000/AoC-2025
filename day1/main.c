@@ -1,7 +1,7 @@
-#include <stdio.h>
+#include <assert.h>
 #include <limits.h>
+#include <stdio.h>
 #include <stdint.h>
-#include <stdlib.h>
 #include <stdlib.h>
 
 #include "file_parser.h"
@@ -55,16 +55,14 @@ static void rotateDial(rotate_dial_e dir, int val, ctx_t* ctx) {
 }
 
 void parseLine(char* line, size_t len, void* ctx) {
+    assert(ctx);
+
     char* endptr;
     int num;
 
-    if (ctx == NULL) {
-        exit(EXIT_FAILURE);
-    }
-
     rotate_dial_e op = DIAL_NONE;
     
-    if (len == 0) {
+    if (len == 0 || line[0] == '\n') {
         return;
     }
 
@@ -72,14 +70,27 @@ void parseLine(char* line, size_t len, void* ctx) {
         op = DIAL_LEFT;
     } else if (line[0] == DIAL_RIGHT_C) {
         op = DIAL_RIGHT;
+    } else {
+        fprintf(stderr, "[ERROR] Invalid op: %c\n", line[0]);
+        return;
     }
 
     num = strtod(&line[1], &endptr);
+    if (num > INT_MAX || num < INT_MIN) {
+        fprintf(stderr, "Number out of range %ld\n", num);
+        return;
+    }
+    
     rotateDial(op, num, (ctx_t*)ctx);
 }
 
 int main(int argc, char** argv) {
     (void)argc;
+
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s <input_file>", argv[0]);
+        return EXIT_FAILURE;
+    }
 
     ctx_t ctx = {
         .current_val = DIAL_STARTING_VAL,
