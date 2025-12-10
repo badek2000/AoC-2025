@@ -2,6 +2,7 @@
 #include <limits.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdlib.h>
 
 #define DIAL_UNIQUE_POS ((int)100)
 #define DIAL_STARTING_VAL ((int) 50)
