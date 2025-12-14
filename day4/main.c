@@ -109,6 +109,8 @@ static void parseLine(char* line, size_t len) {
 } 
 
 int main(int argc, char **argv) {
+    (void)argc;
+    
     char* file_name = argv[1];
     FILE *fp = NULL;
 
@@ -125,7 +127,7 @@ int main(int argc, char **argv) {
 
     while (-1 != (read = getline(&line, &len, fp))) {
         ++arr_cnt;
-        if (warehouse_arr_size < read) {
+        if (warehouse_arr_size < (size_t)read) {
             warehouse_arr_size = read - 1; // -1 for null terminator
         }
     }

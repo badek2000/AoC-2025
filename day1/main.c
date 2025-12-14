@@ -77,7 +77,7 @@ void parseLine(char* line, size_t len, void* ctx) {
 
     num = strtod(&line[1], &endptr);
     if (num > INT_MAX || num < INT_MIN) {
-        fprintf(stderr, "Number out of range %ld\n", num);
+        fprintf(stderr, "Number out of range %d\n", num);
         return;
     }
     

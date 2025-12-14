@@ -7,7 +7,7 @@
 #define MAX_BATTERIES_ON_2 ((size_t)(12))
 
 static size_t parseLine_1(char* line, size_t len) {
-    char buf[MAX_BATTERIES_ON_1 + 1] = {}; // +1 for null termination
+    char buf[MAX_BATTERIES_ON_1 + 1] = {0}; // +1 for null termination
     buf[MAX_BATTERIES_ON_1] = '\0';
 
     char *endptr = NULL;
@@ -30,10 +30,6 @@ static size_t parseLine_1(char* line, size_t len) {
     return max;
 }
 
-static bool isNumeric(char c) {
-    return c >= '0' && c <= '9';
-}
-
 static char findNextMax(char* line, size_t len, size_t *idx) {
     char max = 0;
     for(size_t i = *idx; i < len; ++i) {
@@ -48,14 +44,12 @@ static char findNextMax(char* line, size_t len, size_t *idx) {
 }
 
 static size_t parseLine_2(char* line, size_t len) {
-    char buf[MAX_BATTERIES_ON_2 + 1] = {}; // +1 for null termination
+    char buf[MAX_BATTERIES_ON_2 + 1] = {0}; // +1 for null termination
     buf[MAX_BATTERIES_ON_2] = '\0';
 
     char *endptr = NULL;
     static const int base = 10;
 
-    size_t max = 0;
-    size_t new_val = 0;
     size_t batteries_on = 0;
     size_t idx = 0;
 
@@ -70,6 +64,8 @@ static size_t parseLine_2(char* line, size_t len) {
 }
 
 int main(int argc, char **argv) {
+    (void)argc;
+    
     FILE *fp = NULL;
     char* file_name = argv[1];
     char* line = NULL;

@@ -9,16 +9,6 @@
 typedef size_t aoc_id_t;
 typedef bool(*checkIfValid_t)(aoc_id_t);
 
-static size_t countDigits(aoc_id_t id) {
-    size_t digits = 1;
-    while (id > 9) {
-        id /= 10;
-        ++digits;
-    }
-
-    return digits;
-}
-
 static bool checkIfIdValid_1(aoc_id_t id) {
     size_t number_of_digits = log10(id) + 1;
     if (number_of_digits % 2 == 1) {
@@ -38,7 +28,6 @@ static bool checkIfIdValid_2(aoc_id_t id) {
     size_t number_of_digits = (log10(id) + 1);
     aoc_id_t pow = 0;
     aoc_id_t seq = 0;
-    size_t seq_cnt;
 
     for (size_t seq_len = 1; seq_len <= number_of_digits / 2; ++seq_len) {
         pow = (aoc_id_t)powl(10, (number_of_digits - seq_len));
@@ -92,6 +81,8 @@ static aoc_id_t parseRange(char* line, checkIfValid_t checkIfIdValid) {
 }
 
 int main(int argc, char**argv) {
+    (void)argc;
+    
     char* file_name = argv[1];
     FILE *fp = fopen(file_name, "r");
 

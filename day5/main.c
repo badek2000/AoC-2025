@@ -1,18 +1,32 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
+
+#include "vec.h"
+#include "file_parser.h"
 
 #define RANGE_DELIM '-'
 
+typedef struct _ctx_s {
+    size_t answer;
+} ctx_t;
+
 static size_t parseRange(char* line, size_t len) {
+    (void)line;
+    (void)len;
     return 0;
 }
 
 static size_t parseId(char* line, size_t len) {
+    (void)line;
+    (void)len;
     return 0;
 }
 
-static size_t parseLine(char *line, size_t len) {
+static void parseLine(char *line, size_t len, void* ctx) {
+    (void)ctx;
+
     bool range = (strchr(line, RANGE_DELIM) == NULL) ? false : true;
 
     if (range) {
@@ -20,27 +34,19 @@ static size_t parseLine(char *line, size_t len) {
     } else {
         parseId(line, len);
     }
-
-    return 0;
 }
 
 int main(int argc, char **argv) {
-    char* file_name = argv[1];
-    FILE *fp = NULL;
+        (void)argc;
 
-    size_t len = 0;
-    ssize_t read = 0;
-    char *line = NULL;
-
-    fp = fopen(file_name, "r");
-    if (fp == NULL) {
-        fprintf(stderr, "[ERROR] Couldn't open a file: %s\n", file_name);
-        return -1;
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s <input_file>", argv[0]);
+        return EXIT_FAILURE;
     }
 
-    while (-1 != (read = getline(&line, &len, fp))) {
-        parseLine(line, read);
-    }
+    ctx_t ctx = {0};
+
+    AoC_parseFile(argv[1], parseLine, &ctx);
 
     return 0;
 }
