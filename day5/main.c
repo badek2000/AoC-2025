@@ -9,6 +9,7 @@
 #define RANGE_DELIM '-'
 
 typedef struct _ctx_s {
+    AoC_vec_t ranges;
     size_t answer;
 } ctx_t;
 
